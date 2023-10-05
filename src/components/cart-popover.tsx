@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { CartItem as CartItemType } from "@/context/cart-context";
@@ -13,12 +13,12 @@ export default function CartPopover({
   cartQuantity: number;
   cartItems: CartItemType[];
 }) {
+  const [totalPrice, setTotalPrice] = useState(0);
   const { data } = useSWR("cart-item", async () => {
-    return await getCartItems(cartItems.map((item) => item.id));
+    const res = await getCartItems(cartItems.map((item) => item.id));
+    setTotalPrice(res?.reduce((acc, item) => acc + item.price, 0));
+    return res;
   });
-
-  // Calculate the total price of items in the cart
-  const total = data?.reduce((acc, item) => acc + item.price, 0);
 
   useEffect(() => {
     mutate("cart-item");
@@ -52,7 +52,7 @@ export default function CartPopover({
               ))}
           </div>
           <div className="bg-gray-700 text-white p-4 mt-auto rounded-b-3xl flex justify-between">
-            <span>Total: ${total ? total.toFixed(2) : "0.00"}</span>
+            <span>Total: ${totalPrice ? totalPrice.toFixed(2) : "0.00"}</span>
             <button className="relative mt-4 inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
               Checkout
             </button>
