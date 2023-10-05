@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "next": "latest",
+    "next-auth": "^4.23.2",
     "react": "latest",
     "react-dom": "latest",
     "swr": "^2.2.4"
