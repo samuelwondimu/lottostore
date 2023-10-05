@@ -2,19 +2,44 @@
 import React from "react";
 import ProductDetail from "@/components/product-detail";
 import ProductCard from "@/components/product-card";
-import { getProductById, getProductsByCategory } from "@/services/products";
+import {
+  Product as ProductType,
+  getProductById,
+  getProductsByCategory,
+} from "@/services/products";
 import useSWR, { mutate } from "swr";
 
 function Product({ id }: { id: string }) {
-  const { data: product } = useSWR("product-by-id", async () => {
-    return await getProductById(parseInt(id));
-  });
-
-  const { data: productsByCategory } = useSWR(
-    "product-by-catgeory",
-    async () => {
-      return await getProductsByCategory(product?.category ?? "");
+  const fetchProductById = async (
+    id: number
+  ): Promise<ProductType | undefined> => {
+    try {
+      return await getProductById(id);
+    } catch (error) {
+      console.error("Error fetching product:", error);
+      return undefined;
     }
+  };
+
+  const fetchProductsByCategory = async (
+    category: string
+  ): Promise<ProductType[] | undefined> => {
+    try {
+      return await getProductsByCategory(category);
+    } catch (error) {
+      console.error("Error fetching products by category:", error);
+      return undefined;
+    }
+  };
+
+  const { data: product } = useSWR<ProductType | undefined, Error>(
+    ["product-by-id", id],
+    () => fetchProductById(parseInt(id))
+  );
+
+  const { data: productsByCategory } = useSWR<ProductType[] | undefined, Error>(
+    ["product-by-category", product?.category ?? ""],
+    () => fetchProductsByCategory(product?.category ?? "")
   );
 
   React.useEffect(() => {
