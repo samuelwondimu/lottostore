@@ -4,7 +4,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { CartItem as CartItemType } from "@/context/cart-context";
 import CartItem from "./cart-items";
 import { getCartItems } from "@/services/cart";
-import { useQuery } from "@tanstack/react-query";
+import useSWR, { mutate } from "swr";
 
 export default function CartPopover({
   cartQuantity,
@@ -13,16 +13,16 @@ export default function CartPopover({
   cartQuantity: number;
   cartItems: CartItemType[];
 }) {
-  const { data, refetch } = useQuery({
-    queryKey: ["cart-item"],
-    queryFn: async () => {
-      return await getCartItems(cartItems.map((item) => item.id));
-    },
+  const { data } = useSWR("cart-item", async () => {
+    return await getCartItems(cartItems.map((item) => item.id));
   });
 
+  // Calculate the total price of items in the cart
+  const total = data?.reduce((acc, item) => acc + item.price, 0);
+
   useEffect(() => {
-    refetch();
-  }, [cartQuantity, refetch]);
+    mutate("cart-item");
+  }, [cartQuantity]);
 
   return (
     <Popover className="relative">
@@ -38,8 +38,9 @@ export default function CartPopover({
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
-          <div className="w-screen max-w-sm flex-auto rounded-3xl bg-gray-800 p-4 text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+        <Popover.Panel className="absolute flex mt-5 h-[50vh] overflow-scroll  rounded-3xl  bg-gray-800 w-screen max-w-max -translate-x-1/2 px-4">
+          <div className="w-screen max-w-sm flex-auto p-4 text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+            {total}$
             {data?.map((item) => (
               <CartItem key={item.id} cartProduct={item} />
             ))}
