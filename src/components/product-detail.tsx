@@ -27,7 +27,11 @@ export default function ProductDetail(product: Product) {
           <h3 className="text-gray-900 text-2xl font-extrabold pb-4">
             {product.title}
           </h3>
+          <p className="text-gray-600 mb-2">{product.category}</p>
           <p className="text-gray-900">{product.description}</p>
+          <p className="text-gray-900 font-extrabold text-4xl pt-3">
+            {product.price} $
+          </p>
           <button
             onClick={() => {
               increaseCartQuantity(product.id);
