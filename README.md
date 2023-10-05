@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js E-Commerce Store with Authentication
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project is a Next.js-based e-commerce web application that utilizes Tailwind CSS for styling and the FakeStoreAPI for product data and authentication. The application provides users with the ability to browse and purchase products, view product details, and manage their shopping cart.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Product Listing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- The application displays a list of products retrieved from the FakeStoreAPI.
+- Users can view product details by clicking on a product card.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Product Detail Page
 
-## Learn More
+- Each product has a dedicated detail page.
+- On the product detail page, users can view product information, including the product name, description, price, and related products.
 
-To learn more about Next.js, take a look at the following resources:
+### Related Products
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- The product detail page shows related products that users might be interested in.
+- Related products are fetched from the FakeStoreAPI based on category or other criteria.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Shopping Cart
 
-## Deploy on Vercel
+- Users can add products to their shopping cart.
+- The shopping cart is persisted using local storage, allowing users to keep items in their cart across sessions.
+- Users can view the contents of their cart, update quantities, and remove items.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Authentication
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Authentication is implemented using the FakeStoreAPI's authentication endpoint.
+- Users can log in and log out of the application.
+- username: "mor_2314",
+- password: "83r5^_"
+
+## Tech Stack
+
+- Next.js: A React framework for building web applications.
+- Tailwind CSS: A utility-first CSS framework for styling.
+- FakeStoreAPI: A mock e-commerce API for product data and authentication.
+
+## Installation
+
+1. Clone this repository.
+2. Install dependencies using `npm install` or `yarn install`.
+3. Start the development server with `npm run dev` or `yarn dev`.
+
+## Usage
+
+- Open the application in your web browser.
+- Browse products, view product details, and add items to your cart.
+- Log in to access additional features.
+- Complete the purchase process.
