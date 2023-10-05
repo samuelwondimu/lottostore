@@ -23,8 +23,14 @@ export async function getProducts() {
 /**
  * get product by id
  */
-export async function getProductById(id: string) {
+export async function getProductById(id: string | number) {
   const res = await fetch(API_ENDPOINT + "products/" + id);
   const data = await res.json();
   return data as Product;
+}
+
+export async function getProductsByCategory(category: string) {
+  const res = await fetch(API_ENDPOINT + "products/category/" + category);
+  const data = await res.json();
+  return data as Product[];
 }
