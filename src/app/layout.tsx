@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ShoppingCartProvider } from "@/context/cart-context";
+import AuthProvider from "@/context/session-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-white">
       <body className={inter.className}>
-        <ShoppingCartProvider>
-          <Navbar />
-          {children}
-        </ShoppingCartProvider>
+        <AuthProvider>
+          <ShoppingCartProvider>
+            <Navbar />
+            {children}
+          </ShoppingCartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
