@@ -40,9 +40,16 @@ export default function CartPopover({
       >
         <Popover.Panel className="absolute flex flex-col mt-5 h-[50vh] rounded-3xl bg-gray-800 w-screen max-w-max -translate-x-1/2">
           <div className="w-screen max-w-sm flex-auto p-4 text-sm leading-6 shadow-lg overflow-scroll ring-1 ring-gray-900/5 px-4">
-            {data?.map((item) => (
-              <CartItem key={item.id} cartProduct={item} />
-            ))}
+            {data
+              ?.map((prod) => {
+                const cartQuantity = cartItems.find(
+                  (item) => item.id === prod.id
+                )?.quantity;
+                return { ...prod, quantity: cartQuantity };
+              })
+              ?.map((item) => (
+                <CartItem key={item.id} cartProduct={item} />
+              ))}
           </div>
           <div className="bg-gray-700 text-white p-4 mt-auto rounded-b-3xl flex justify-between">
             <span>Total: ${total ? total.toFixed(2) : "0.00"}</span>
