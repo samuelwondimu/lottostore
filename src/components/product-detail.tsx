@@ -5,7 +5,11 @@ import { useShoppingCart } from "@/context/cart-context";
 
 export default function ProductDetail(product: Product) {
   const { increaseCartQuantity, cartItems } = useShoppingCart();
-  console.log(cartItems);
+
+  // check if product is already in cart
+  const isInCart = cartItems.some((item) => item.id === product.id);
+  // find the cart item count
+  const cartItem = cartItems.find((item) => item.id === product.id);
 
   return (
     <div className="py-6 bg-white">
@@ -25,11 +29,18 @@ export default function ProductDetail(product: Product) {
           </h3>
           <p className="text-gray-900">{product.description}</p>
           <button
-            onClick={() => increaseCartQuantity(product.id)}
+            onClick={() => {
+              increaseCartQuantity(product.id);
+            }}
             type="button"
             className="relative mt-4 inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
           >
-            Add to Cart
+            {isInCart ? "Add more to cart" : "Add to cart"}
+            {isInCart && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                {cartItem?.quantity}
+              </span>
+            )}
           </button>
         </div>
       </div>
