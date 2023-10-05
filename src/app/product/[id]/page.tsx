@@ -1,15 +1,11 @@
-import ProductDetail from "@/components/product-detail";
-import { getProductById } from "@/services/products";
-import React from "react";
+import Product from "@/components/product";
 
-export default async function ProductPage({
+export default function ProductPage({
   params,
 }: {
   params: {
     id: string;
   };
 }) {
-  const product = await getProductById(params.id);
-  console.log(product);
-  return <ProductDetail {...product} />;
+  return <Product id={params.id} />;
 }
